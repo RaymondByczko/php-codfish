@@ -7,11 +7,13 @@
  * @history 2019-06-28; RByczko; Added compareFirst, compareLast to class TitleData.
  * @history 2019-06-29; RByczko; Moved TitleExcluded class to its own file.
  * @history 2019-06-29; RByczko; Moved TitleData class to its own file. Adjust for autoload.
+ * @history 2019-06-29; RByczko; Moved TitleDataFileFormat class to its own file.
  *
  */
 
 require __DIR__.'/vendor/autoload.php';
 use RaymondByczko\PhpCodfish\TitleData;
+use RaymondByczko\PhpCodfish\TitleDataFileFormat;
 
 echo 'NEWLINE'."\n";
 $line1 = "tt0000001	short	Carmencita	Carmencita	0	1894	\N	1	Documentary,Short";
@@ -30,19 +32,6 @@ foreach ($line2Pieces as $piece)
 	echo 'piece is:'.$piece."\n";
 }
 
-
-class TitleDataFileFormat
-{
-	public static $c_tconst = 0;
-	public static $c_titleType = 1;
-	public static $c_primaryType = 2;
-	public static $c_originalTitle = 3;
-	public static $c_isAdult = 4;
-	public static $c_startYear = 5;
-	public static $c_endYear = 6;
-	public static $c_runTimeMinutes = 7;
-	public static $c_genres = 8;
-}
 
 $fileMovieData = 'smalldata2.tsv';
 $hMovieData = fopen($fileMovieData, "r");
