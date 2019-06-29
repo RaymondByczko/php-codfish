@@ -11,6 +11,7 @@
  * @history 2019-06-29; RByczko; No need to require autoload.php in this file.
  * @history 2019-06-29; RByczko; uasort needs fully named class name, and the static method
  * utilized, to work well.
+ * @history 2019-06-29; RByczko; Removed code fragment exploring explode.  Moved to misc/explode01.php.
  *
  */
 
@@ -18,22 +19,6 @@
 use RaymondByczko\PhpCodfish\TitleData;
 use RaymondByczko\PhpCodfish\TitleDataFileFormat;
 
-echo 'NEWLINE'."\n";
-$line1 = "tt0000001	short	Carmencita	Carmencita	0	1894	\N	1	Documentary,Short";
-$line1Pieces = explode("\t", $line1);
-foreach ($line1Pieces as $piece)
-{
-	echo 'piece is:'.$piece."\n";
-}
-
-echo 'NEWLINE'."\n";
-$line2 = "tt0000002	short	Le clown et ses chiens	Le clown et ses chiens	0	1892	\N	5	Animation,Short";
-
-$line2Pieces = explode("\t", $line2);
-foreach ($line2Pieces as $piece)
-{
-	echo 'piece is:'.$piece."\n";
-}
 
 
 $fileMovieData = 'smalldata2.tsv';
