@@ -5,6 +5,7 @@
  * @company self
  * @author Raymond Byczko
  * @history 2019-06-28; RByczko; Added compareFirst, compareLast to class TitleData.
+ * @history 2019-06-29; RByczko; Moved TitleExcluded class to its own file.
  *
  */
 
@@ -23,11 +24,6 @@ $line2Pieces = explode("\t", $line2);
 foreach ($line2Pieces as $piece)
 {
 	echo 'piece is:'.$piece."\n";
-}
-
-class TitleExcluded
-{
-	public static $words = array('a', 'and', 'the');
 }
 
 class TitleData

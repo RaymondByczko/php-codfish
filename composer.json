@@ -1,5 +1,10 @@
 {
 	"name":"raymond-byczko/php-codfish",
 	"require": {
+	},
+	"autoload": {
+		"psr-4": {
+			"RaymondByczko\\PhpCodfish\\", "src/"
+		}
 	}
 }
