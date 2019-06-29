@@ -8,10 +8,13 @@
  * @history 2019-06-29; RByczko; Moved TitleExcluded class to its own file.
  * @history 2019-06-29; RByczko; Moved TitleData class to its own file. Adjust for autoload.
  * @history 2019-06-29; RByczko; Moved TitleDataFileFormat class to its own file.
+ * @history 2019-06-29; RByczko; No need to require autoload.php in this file.
+ * @history 2019-06-29; RByczko; uasort needs fully named class name, and the static method
+ * utilized, to work well.
  *
  */
 
-require __DIR__.'/vendor/autoload.php';
+// require __DIR__.'/vendor/autoload.php';
 use RaymondByczko\PhpCodfish\TitleData;
 use RaymondByczko\PhpCodfish\TitleDataFileFormat;
 
@@ -93,8 +96,8 @@ foreach ($lCollectionTitleData as $key=>$aTitleData)
 
 
 // usort($collectionTitleData, array("TitleData", "compareFirst"));
-uasort($fCollectionTitleData, array("TitleData", "compareFirst"));
-uasort($lCollectionTitleData, array("TitleData", "compareLast"));
+uasort($fCollectionTitleData, array("RaymondByczko\PhpCodfish\TitleData", "compareFirst"));
+uasort($lCollectionTitleData, array("RaymondByczko\PhpCodfish\TitleData", "compareLast"));
 
 echo 'collectionTitleData: post sort (first)'."\n";
 echo '...FIRST'."\n";
