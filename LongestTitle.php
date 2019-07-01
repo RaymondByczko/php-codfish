@@ -12,12 +12,14 @@
  * @history 2019-06-29; RByczko; uasort needs fully named class name, and the static method
  * utilized, to work well.
  * @history 2019-06-29; RByczko; Removed code fragment exploring explode.  Moved to misc/explode01.php.
+ * @history 2019-07-01; RByczko; Moved debugging type code to its own utility.  Took care of presort.
  *
  */
 
 // require __DIR__.'/vendor/autoload.php';
 use RaymondByczko\PhpCodfish\TitleData;
 use RaymondByczko\PhpCodfish\TitleDataFileFormat;
+use RaymondByczko\PhpCodfish\TitleUtilities;
 
 
 
@@ -65,19 +67,10 @@ echo 'sizeColTitleData='.$sizeColTitleData."\n";
 echo '... 0th first Piece: '.$collectionTitleData[0]->pieceFirst."\n";
 echo '... 5th first Piece: '.$collectionTitleData[5]->pieceLast."\n";
 
-echo 'collectionTitleData: before sort'."\n";
-echo '...FIRST'."\n";
-foreach ($fCollectionTitleData as $key=>$aTitleData)
-{
-	echo '... ... aTitleData: '.$key.' '.$aTitleData->pieceFirst.' ,'.$aTitleData->pieceLast."\n";
-}
-
-echo '...LAST'."\n";
-foreach ($lCollectionTitleData as $key=>$aTitleData)
-{
-	echo '... ... aTitleData: '.$key.' '.$aTitleData->pieceFirst.' ,'.$aTitleData->pieceLast."\n";
-}
-
+// Inspect fCollectionTitleData, per debugging.
+TitleUtilities::printCollection($fCollectionTitleData, 'collectionTitleData: before sort'."\n", '...FIRST'."\n");
+// Inspect lCollectionTitleData, per debugging.
+TitleUtilities::printCollection($lCollectionTitleData, 'collectionTitleData: before sort'."\n", '...LAST'."\n");
 
 
 // usort($collectionTitleData, array("TitleData", "compareFirst"));
