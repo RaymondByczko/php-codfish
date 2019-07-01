@@ -13,6 +13,7 @@
  * utilized, to work well.
  * @history 2019-06-29; RByczko; Removed code fragment exploring explode.  Moved to misc/explode01.php.
  * @history 2019-07-01; RByczko; Moved debugging type code to its own utility.  Took care of presort.
+ * @history 2019-07-01; RByczko; Moved debugging type code to its own utility.  Took care of postsort.
  *
  */
 
@@ -77,20 +78,11 @@ TitleUtilities::printCollection($lCollectionTitleData, 'collectionTitleData: bef
 uasort($fCollectionTitleData, array("RaymondByczko\PhpCodfish\TitleData", "compareFirst"));
 uasort($lCollectionTitleData, array("RaymondByczko\PhpCodfish\TitleData", "compareLast"));
 
-echo 'collectionTitleData: post sort (first)'."\n";
-echo '...FIRST'."\n";
-foreach ($fCollectionTitleData as $key=>$aTitleData)
-{
-	echo '... ... aTitleData: '.$key.' '.$aTitleData->pieceFirst.' ,'.$aTitleData->pieceLast."\n";
-}
 
-echo '...LAST'."\n";
-foreach ($lCollectionTitleData as $key=>$aTitleData)
-{
-	echo '... ... aTitleData: '.$key.' '.$aTitleData->pieceFirst.' ,'.$aTitleData->pieceLast."\n";
-}
-
-
+// Inspect fCollectionTitleData, per debugging.
+TitleUtilities::printCollection($fCollectionTitleData, 'collectionTitleData: post sort'."\n", '...FIRST'."\n");
+// Inspect lCollectionTitleData, per debugging.
+TitleUtilities::printCollection($lCollectionTitleData, 'collectionTitleData: post sort'."\n", '...LAST'."\n");
 
 
 fclose($hMovieData);
