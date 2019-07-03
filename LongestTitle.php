@@ -4,6 +4,73 @@
  * @file LongestTitle.php
  * @company self
  * @author Raymond Byczko
+ * @documentation
+ * 
+ * The main idea of this implementation is to establish links between one title and its successor.
+ * Further, a link will be set between a title and its predeccesor.
+ * So, basically in place, these links will be set up, and only the prev, next links are adjusted.
+ *
+ * How can this work?
+ *
+ * Lets assume very simple titles with no excluded words.
+ * Lets assume each title is composed of two words, each word is a character.
+ *
+ * A Z
+ * Z N
+ * Z M
+ * A X
+ * B A
+ * P V
+ * D A
+ * C W
+ * V A
+ * V Z
+ *
+ * So the first title is 'A Z', and the last title is 'V Z'.  'A Z' will link with
+ * 'Z N' and 'Z M'.  The following would be produced with those three titles:
+ * 'A Z N', 'A Z M'.
+ * 
+ * To allow this occur, 'A Z', needs to find the 'Z N', and Z M' elements.
+ * For very large arrays, do we want to search looking for the initial Z?
+ * Or how do we want to search?
+ *
+ * Further, 'A Z' is not the only element interested in 'Z N' and 'Z M'.
+ * It turns out 'V Z' is also interested.
+ *
+ * To allow efficient search, we can a) sort on the first letter b) sort on the last
+ * letter.  Then we can do an implementation of quick sort.  Although it doubles
+ * memory allocation, the initial array can be copied, and both can be sorted.
+ *
+ * Here is the result with our sample data.
+ *
+SORT ON FIRST
+A Z
+A X
+B A
+C W
+D A
+P V
+V A
+V Z
+Z N
+Z M
+
+SORT ON LAST
+D A
+B A
+V A
+Z M
+Z N
+P V
+C W
+A X
+A Z
+V Z
+
+
+
+
+
  * @history 2019-06-28; RByczko; Added compareFirst, compareLast to class TitleData.
  * @history 2019-06-29; RByczko; Moved TitleExcluded class to its own file.
  * @history 2019-06-29; RByczko; Moved TitleData class to its own file. Adjust for autoload.
@@ -14,6 +81,7 @@
  * @history 2019-06-29; RByczko; Removed code fragment exploring explode.  Moved to misc/explode01.php.
  * @history 2019-07-01; RByczko; Moved debugging type code to its own utility.  Took care of presort.
  * @history 2019-07-01; RByczko; Moved debugging type code to its own utility.  Took care of postsort.
+ * @history 2019-07-03; RByczko; Added documentation above (draft).
  *
  */
 
@@ -24,7 +92,7 @@ use RaymondByczko\PhpCodfish\TitleUtilities;
 
 
 
-$fileMovieData = 'smalldata2.tsv';
+$fileMovieData = 'testdata/data10.tsv';
 $hMovieData = fopen($fileMovieData, "r");
 if ($hMovieData == FALSE)
 {

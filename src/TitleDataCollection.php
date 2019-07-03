@@ -6,6 +6,7 @@
   * @author Raymond Byczko
   * @start_date
   * @history 2019-07-03; RByczko; Added getTdc, getSorted, findRange.
+  * @history 2019-07-03; RByczko; Adjusted quickFind, findRange methods.
   */
 namespace RaymondByczko\PhpCodfish;
 use RaymondByczko\PhpCodfish\TitleData;
@@ -67,20 +68,25 @@ class TitleDataCollection
 	  * https://stackoverflow.com/questions/7106772/efficient-way-to-search-object-in-an-array-by-a-property
 	  *
 	  */
-	public function quickFind(&$array, $property, $value_to_find, &$first_index)
+	public function quickFind($property, $value_to_find, &$first_index)
 	{
+		if (!$this->tdcSorted)
+		{
+			throw new \Exception('array not sorted');
+		}
 		$l = 0;
-		$r = count($array) - 1;
+		$r = count($this->tdc) - 1;
 		$m = 0;
 		while ($l <= $r) {
 			$m = floor(($l + $r) / 2);
-			if ($array[$m]->{$property} < $value_to_find) {
+			if ($this->tdc[$m]->{$property} < $value_to_find) {
 				$l = $m + 1;
-			} else if ($array[$m]->{$property} > $value_to_find) {
+			} else if ($this->tdc[$m]->{$property} > $value_to_find) {
 				$r = $m - 1;
 			} else {
 				$first_index = $m;
-				return $array[$m];
+				// return $this->tdc[$m];
+				return TRUE;
 			}
 		}
 		return FALSE;
@@ -95,7 +101,7 @@ class TitleDataCollection
 	  */
 	public function findRange($startIndex, $property, &$minIndex, &$maxIndex)
 	{
-		if (!$this->sorted)
+		if (!$this->tdcSorted)
 		{
 			return FALSE;
 		}
