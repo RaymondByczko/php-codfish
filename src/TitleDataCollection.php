@@ -1,34 +1,52 @@
 <?php
-
+/**
+  * @file TitleDataCollection.php
+  * @location php-codfish/src
+  * @company self
+  * @author Raymond Byczko
+  * @start_date
+  * @history 2019-07-03; RByczko; Added getTdc, getSorted, findRange.
+  */
 namespace RaymondByczko\PhpCodfish;
 use RaymondByczko\PhpCodfish\TitleData;
 
 class TitleDataCollection
 {
 	private $tdc;
-	private $tdc_sorted;
+	private $tdcSorted;
 
 	public function __construct()
 	{
 		$this->tdc = array();
-		$this->tdc_sorted = FALSE;
+		$this->tdcSorted = FALSE;
+	}
+
+	public function &getTdc()
+	{
+		return $this->tdc;
+	}
+
+	public function getSorted()
+	{
+		return $this->tdcSorted;
 	}
 
 	public function add(TitleData &$newTitleData)
 	{
 		$this->tdc[] = $newTitleData;
+		$this->tdcSorted = FALSE;
 	}
 
 	public function sort()
 	{
-		uasort($this->tdc, array("RaymondByczko\PhpCodfish\TitleData", "compareFirst"));
+		usort($this->tdc, array("RaymondByczko\PhpCodfish\TitleData", "compareFirst"));
 		// uasort($lCollectionTitleData, array("RaymondByczko\PhpCodfish\TitleData", "compareLast"));
-		$this->tdc_sorted = TRUE;
+		$this->tdcSorted = TRUE;
 	}
 
 	public function link()
 	{
-		if ($this->tdc_sorted)
+		if ($this->tdcSorted)
 		{
 			$firstIndex = -1; // @todo - this should be a null or not valid value.
 			foreach ($this->tdc as $key=>$objTitleData)
@@ -77,7 +95,47 @@ class TitleDataCollection
 	  */
 	public function findRange($startIndex, $property, &$minIndex, &$maxIndex)
 	{
+		if (!$this->sorted)
+		{
+			return FALSE;
+		}
 		$valueStart = $this->tdc[$startIndex]->{$property};
+		$i = $startIndex;
+		$i--;
+		$tmpMinIndex = $startIndex;
+		$tmpMaxIndex = $startIndex;
+		while ($i >= 0)
+		{
+			if ($this->tdc[$i]->{$property} == $valueStart )
+			{
+				$tmpMinIndex = $i;
+				$i--;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		$j = $startIndex;
+		$sizeTdc = count ($this->tdc);
+		$j++;
+		while ($j < $sizeTdc)
+		{
+			if ($this->tdc[$i]->{$property} == $valueStart )
+			{
+				$tmpMaxIndex = $j;
+				$j++;
+			}
+			else
+			{
+				break;
+			}
+		
+		}
+		$minIndex = $tmpMinIndex;
+		$maxIndex = $tmpMaxIndex;
+		return TRUE;
 	}
 
 }
