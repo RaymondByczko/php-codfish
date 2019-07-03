@@ -82,6 +82,7 @@ V Z
  * @history 2019-07-01; RByczko; Moved debugging type code to its own utility.  Took care of presort.
  * @history 2019-07-01; RByczko; Moved debugging type code to its own utility.  Took care of postsort.
  * @history 2019-07-03; RByczko; Added documentation above (draft).
+ * @history 2019-07-03; RByczko; Adjusted path to movie data file to run from base of install.
  *
  */
 
@@ -92,7 +93,7 @@ use RaymondByczko\PhpCodfish\TitleUtilities;
 
 
 
-$fileMovieData = 'testdata/data10.tsv';
+$fileMovieData = 'vendor/raymond-byczko/php-codfish/testdata/data10.tsv';
 $hMovieData = fopen($fileMovieData, "r");
 if ($hMovieData == FALSE)
 {

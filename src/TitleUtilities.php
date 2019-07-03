@@ -13,7 +13,7 @@ class TitleUtilities
 	{
 		echo $out1;
 		echo $out2;
-		foreach ($CollectionTitleData as $key=>$aTitleData)
+		foreach ($collectionTitleData as $key=>$aTitleData)
 		{
 			echo '... ... aTitleData: '.$key.' '.$aTitleData->pieceFirst.' ,'.$aTitleData->pieceLast."\n";
 		}
