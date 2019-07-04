@@ -7,6 +7,8 @@
   * @start_date
   * @history 2019-07-03; RByczko; Added getTdc, getSorted, findRange.
   * @history 2019-07-03; RByczko; Adjusted quickFind, findRange methods.
+  * @history 2019-07-04; RByczko; Implemented link method.  Changed signature
+  * of add method from reference to non-reference. Fixed counter var.
   */
 namespace RaymondByczko\PhpCodfish;
 use RaymondByczko\PhpCodfish\TitleData;
@@ -32,7 +34,7 @@ class TitleDataCollection
 		return $this->tdcSorted;
 	}
 
-	public function add(TitleData &$newTitleData)
+	public function add(TitleData $newTitleData)
 	{
 		$this->tdc[] = $newTitleData;
 		$this->tdcSorted = FALSE;
@@ -52,14 +54,33 @@ class TitleDataCollection
 			$firstIndex = -1; // @todo - this should be a null or not valid value.
 			foreach ($this->tdc as $key=>$objTitleData)
 			{
-				$found = $this->quickFind($this->tdc, 'pieceFirst', $objTitleData->pieceLast, $firstIndex); 
+				// Search for pieceLast component in pieceFirst property.
+				$found = $this->quickFind('pieceFirst', $objTitleData->pieceLast, $firstIndex); 
 				if ($found)
 				{
-					$this->findRange($firstIndex, $minIndex, $maxIndex);
+					$minIndex = -1;
+					$maxIndex = -1;
+					$property = 'pieceFirst';
+					$rangeFound = $this->findRange($firstIndex, $property, $minIndex, $maxIndex);
+					if (!$rangeFound)
+					{
+						throw new Exception('findRange returned FALSE');
+					}
+					// Take care of the forward links.
+					for ($i = $minIndex; $i <= $maxIndex; $i++)
+					{
+						$objTitleData->next[] = &$this->tdc[$i];
+					}
+					// Take care of the back links.
+					for ($j = $minIndex; $i <= $maxIndex; $i++)
+					{
+						$this->tdc[$j]->prev[] = &$objTitleData;
+					}
 				}
 			}
-			
+			return TRUE;
 		}
+		return FALSE;
 	
 	}
 
@@ -128,7 +149,7 @@ class TitleDataCollection
 		$j++;
 		while ($j < $sizeTdc)
 		{
-			if ($this->tdc[$i]->{$property} == $valueStart )
+			if ($this->tdc[$j]->{$property} == $valueStart )
 			{
 				$tmpMaxIndex = $j;
 				$j++;

@@ -1,4 +1,11 @@
 <?php
+/**
+  * @file TitleData.php
+  * @location php-codfish/src/
+  * @author Raymond Byczko
+  * @history 2019-07-04;RByczko;Added assignment to $line_num in
+  * method getPieces.
+  */
 namespace RaymondByczko\PhpCodfish;
 
 class TitleData
@@ -40,6 +47,8 @@ class TitleData
 
 		$this->pieceFirst = $titlePieceFirst;
 		$this->pieceLast = $titlePieceLast;
+
+		$this->line_num = $line_number;
 		
 	}
 
