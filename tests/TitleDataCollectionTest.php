@@ -7,6 +7,8 @@
   * @start_date
   * @history 2019-07-04; RByczko; Added testSortx10. Corrected data line
   * in $linesx10. Added testLinkx10.
+  * @history 2019-07-04; RByczko; Added test data $linesx5 and
+  * $expectedPieceFirstx5.  Added a test method testLinkx5.
   */
 use PHPUnit\Framework\TestCase;
 use RaymondByczko\PhpCodfish\TitleData;
@@ -26,6 +28,32 @@ class TitleDataCollectionTest extends TestCase
 		't09	movie	View of Apples	View of Apples	0	1995	\N	45	Romance',
 		't10	short	View of Zen	View of Zen	0	1995	\N	1	Documentary'
 	);
+
+	/**
+	  * Small array in reverse order.  Easy to order. Longest title is easy to determine.
+	  */
+	protected $linesx5 = array(
+		't01	short	Envy of Fish	Envy of Fish	0	1993	\N	1	Comedy',
+		't02	short	Deer of Envy	Deer of Envy	0	1992	\N	\N	Animation',
+		't03	short	Care of Deer	Care of Deer	0	1892	\N	4	Animation',
+		't04	short	Books in Care	Books in Care	0	1892	\N	5	Animation',
+		't05	short	Apples of Books	Apples of Books	0	1994	\N	1	Documentary'
+	);
+
+	/**
+	  * These are the expected pieceFirst values when the array of $linesx5 is sorted
+	  * and linked.
+	  */
+	protected $expectedPieceFirstx5 = array(
+		'Apples',
+		'Books',
+		'Care',
+		'Deer',		
+		'Envy',
+		'Fish'
+	);
+	
+
 	public function testSorted()
 	{
 		$objTDC = new TitleDataCollection();
@@ -229,6 +257,61 @@ class TitleDataCollectionTest extends TestCase
 		
 
 	}
+
+	/**
+	  * A test with only 5 lines, each with unique first values.
+	  * Each line has a last value that matches the first value
+	  * of only one other line.
+	  */
+	public function testLinkx5()
+	{
+		$objTDC = new TitleDataCollection();
+
+		$sizeLinesx5 = count($this->linesx5);
+
+		for ($i=0; $i < $sizeLinesx5; $i++)
+		{
+			$objTD = new TitleData();
+			$aLine = $this->linesx5[$i];
+			$objTD->getPieces($aLine, $i);
+			$objTDC->add($objTD);
+		}
+
+		$objTDC->sort();
+		$sorted = $objTDC->getSorted();
+		$this->assertTrue($sorted);
+		$linked = $objTDC->link();
+
+		$this->assertTrue($linked);
+
+		$tdcCollection = $objTDC->getTdc();
+
+		$nextCt = count($tdcCollection[0]->next);
+		// @todo more here
+
+		/*
+		 * Recursively explore the chain of TitleData
+		 * via the next component, and make sure the first
+		 * piece matches the expected value.
+		 */
+		$i = 0;
+		
+		$curTitleData = $tdcCollection[0];
+		$first = $curTitleData->pieceFirst;
+		$last = $curTitleData->pieceLast;
+
+		$this->assertEquals($this->expectedPieceFirstx5[$i], $first); 
+		while ((count($curTitleData->next) == 1) && ($i <= 4))
+		{
+			$curTitleData = $curTitleData->next[0];;
+			$i++;
+			$first = $curTitleData->pieceFirst;
+			$last = $curTitleData->pieceLast;
+
+			$this->assertEquals($this->expectedPieceFirstx5[$i], $first); 
+		}
+	}
+	
 
 }
 ?>
