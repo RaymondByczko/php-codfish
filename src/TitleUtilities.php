@@ -1,5 +1,14 @@
 <?php
+/**
+  * @file TitleUtilities.php
+  * @location php-codfish/src/
+  * @author Raymond Byczko
+  * @history 2019-07-09;RByczko;Added createTitleDataFile.
+  */
+
 namespace RaymondByczko\PhpCodfish;
+
+use RaymondByczko\PhpCodfish\TitleDataFileCreateAttributes;
 
 class TitleUtilities
 {
@@ -17,6 +26,11 @@ class TitleUtilities
 		{
 			echo '... ... aTitleData: '.$key.' '.$aTitleData->pieceFirst.' ,'.$aTitleData->pieceLast."\n";
 		}
+	}
+
+	public static function createTitleDataFile(TitleDataFileCreateAttributes $createAttributes)
+	{
+		$createAttributes->create();
 	}
 }
 ?>
