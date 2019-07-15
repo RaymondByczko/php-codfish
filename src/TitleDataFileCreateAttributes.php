@@ -4,6 +4,9 @@
   * @location php-codfish/src/
   * @author Raymond Byczko
   * @history 2019-07-09;RByczko;Created this file.
+  * @history 2019-07-15;RByczko;Added documentation to this file.
+  * Renamed variable titlePrimaryTypeStart to titlePrimaryTitleStart.
+  * Renamed variable titlePrimaryTypeEnd to titlePrimaryTitleEnd.
   */
 
 namespace RaymondByczko\PhpCodfish;
@@ -24,16 +27,79 @@ class TitleDataFileCreateAttributes
 	  * @important This file needs to be hand synchronized with
 	  * TitleDataFileFormat.php
 	  */
+	/**
+	  * Contains the prefix to build the tconst.  A number string
+	  * is appended to it to make it unique.
+	  */
 	public $titleTconstPrefix;
+	/**
+	  * Contains the type of the film entry.  It can be 'short' or 'movie'
+	  * for example.
+	  */
 	public $titleType;
-	public $titlePrimaryTypeStart;
-	public $titlePrimaryTypeEnd;
+	/**
+	  * Contains the PREFIX for the start word for the primary title.  A number
+	  * string is appended to this to generate the full start word of the
+	  * primary title.
+	  */
+	public $titlePrimaryTitleStart;
+	/**
+	  * Contains the PREFIX for the end word for the primary title.  A number
+	  * string is appended to this to generate the full end word of the
+	  * primary title.
+	  */
+	public $titlePrimaryTitleEnd;
+	/* ----- */
+	/**
+	  * The full primary title is composed of two words with an intervening
+	  * space. These words are labelled as 'start' and 'end'.  Each of these
+	  * is comprised of a prefix value to which a number is appended.
+	  *
+	  * This makes for boring but easy to generate, trace and follow primary titles
+	  * that can be tested, because their properties are well known and predictable.
+	  */
+	/* ----- */
+
+	/**
+	  * Contains the PREFIX for the start word of the original title.  A number
+	  * string is appended to this to generate the start word of the original title.
+	  */
 	public $titleOriginalTitleStart;
+	/**
+	  * Contains the PREFIX for the end word of the original title.  A number
+	  * string is appended to this to generate the end word of the original title.
+	  */
 	public $titleOriginalTitleEnd;
+
+	/* ----- */
+	/**
+	  * The full original title is composed of two words with an intervening space.
+	  * Its the same as with the primary title described above.  Apply the same
+	  * construction process there to here.
+	  */
+	/* ----- */
+
+	/**
+	  * Specifies whether the movie specified is for adults or not.
+	  */
 	public $titleAdult;
+	/**
+	  * Specifies the start year for the movie.
+	  */
 	public $titleStartYear;
+	/**
+	  * Specifies the end year for the movie.  "\N" is often specified
+	  * for this.
+	  */
 	public $titleEndYear;
+	/**
+	  * The length of the film in minutes.
+	  */
 	public $titleRunTimeMinutes;
+	/**
+	  * The genre(s) this movie fits into.  If it is more than, seperate
+	  * the individual genre with commas.
+	  */
 	public $titleGenres;
 
 	/**
@@ -54,8 +120,8 @@ class TitleDataFileCreateAttributes
 
 		$this->titleTconstPrefix = 'tt';
 		$this->titleType = 'short';
-		$this->titlePrimaryTypeStart = 'A';
-		$this->titlePrimaryTypeEnd = 'E';
+		$this->titlePrimaryTitleStart = 'A';
+		$this->titlePrimaryTitleEnd = 'E';
 		$this->titleOriginalTitleStart = 'A';
 		$this->titleOriginalTitleEnd = 'E';
 		$this->titleAdult = 0;
@@ -83,8 +149,8 @@ class TitleDataFileCreateAttributes
 
 		$newObject->titleTconstPrefix = 'tt';
 		$newObject->titleType = 'short';
-		$newObject->titlePrimaryTypeStart = 'A';
-		$newObject->titlePrimaryTypeEnd = 'E';
+		$newObject->titlePrimaryTitleStart = 'A';
+		$newObject->titlePrimaryTitleEnd = 'E';
 		$newObject->titleOriginalTitleStart = 'A';
 		$newObject->titleOriginalTitleEnd = 'E';
 		$newObject->titleAdult = 0;
@@ -142,10 +208,10 @@ class TitleDataFileCreateAttributes
 			$lineOutput .= "\t";
 			$lineOutput .= $this->titleType;
 			$lineOutput .= "\t";
-			$lineOutput .= $this->titlePrimaryTypeStart;
+			$lineOutput .= $this->titlePrimaryTitleStart;
 			$lineOutput .= $iFormatted;
 			$lineOutput .= ' ';
-			$lineOutput .= $this->titlePrimaryTypeEnd;
+			$lineOutput .= $this->titlePrimaryTitleEnd;
 			$lineOutput .= $iFormatted;
 			$lineOutput .= ' ';
 			$lineOutput .= "\t";
