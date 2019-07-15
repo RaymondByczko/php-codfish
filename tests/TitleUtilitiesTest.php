@@ -13,10 +13,16 @@ use RaymondByczko\PhpCodfish\TitleDataFileCreateAttributes;
 
 class TitleUtilitiesTest extends TestCase
 {
-	public function testSomething()
+	public function testCreateTitleDataFileDefault()
 	{
 		$createAttributes = new TitleDataFileCreateAttributes();
-		$objTDC = TitleUtilities::createTitleDataFile(TitleDataFileCreateAttributes $createAttributes);
+		$objTDC = TitleUtilities::createTitleDataFile($createAttributes);
+	}
+
+	public function testCreateTitleDataFile500()
+	{
+		$createAttributes = TitleDataFileCreateAttributes::make500();
+		$objTDC = TitleUtilities::createTitleDataFile($createAttributes);
 	}
 }
 ?>
