@@ -9,10 +9,14 @@
   * in $linesx10. Added testLinkx10.
   * @history 2019-07-04; RByczko; Added test data $linesx5 and
   * $expectedPieceFirstx5.  Added a test method testLinkx5.
+  * @history 2019-07-17; RByczko; Basic implementation of
+  * testLinkx20autogenerate.
   */
 use PHPUnit\Framework\TestCase;
 use RaymondByczko\PhpCodfish\TitleData;
 use RaymondByczko\PhpCodfish\TitleDataCollection;
+use RaymondByczko\PhpCodfish\TitleDataFileCreateAttributes;
+use RaymondByczko\PhpCodfish\TitleUtilities;
 
 class TitleDataCollectionTest extends TestCase
 {
@@ -320,34 +324,75 @@ class TitleDataCollectionTest extends TestCase
 	  */
 	public function testLinkx20autogenerate()
 	{
+		echo 'testLinkx20autogenerate-start'."\n";
 		$objTDC = new TitleDataCollection();
 
 		$numLines = 20;
 		$fileName = 'test-linkx-20-auto-generate.tsv';
+
 		/* @todo determine if fileName exists */
-	    $originalExceptions = array();
-	    $originalExceptions[4] = array('start'=>'CA', 'end'=>'HA');
-	    $originalExceptions[6] = array('start'=>'HA', 'end'=>'FI');
-	    $originalExceptions[8] = array('start'=>'FI', 'end'=>'GYMM');
-	  
-        $originalExceptions[15] = array('start'=>'HA', 'end'=>'HE');
-	    $originalExceptions[16] = array('start'=>'HA', 'end'=>'FE');
-	    $originalExceptions[17] = array('start'=>'HA', 'end'=>'RE');
-
-		$createAttributes = TitleDataFileCreateAttributes::makeN($numLines, $fileName, $originalExceptions);
-		$objTDC = TitleUtilities::createTitleDataFile($createAttributes);
-
-		$sizeLinesx5 = count($this->linesx5);
-
-		for ($i=0; $i < $sizeLinesx5; $i++)
+		$fileExists = file_exists($fileName);
+		if ($fileExists)
 		{
-			$objTD = new TitleData();
-			$aLine = $this->linesx5[$i];
-			$objTD->getPieces($aLine, $i);
-			$objTDC->add($objTD);
+			$now = date('Ymd-H:i:s');
+			rename($fileName, $fileName.'.'.$now);
 		}
 
+	    $originalExceptions = array();
+	    $originalExceptions[4] = array('start'=>'CAA', 'end'=>'HAA');
+	    $originalExceptions[6] = array('start'=>'HAA', 'end'=>'FII');
+	    $originalExceptions[8] = array('start'=>'FII', 'end'=>'GYM');
+	  
+        $originalExceptions[15] = array('start'=>'HAA', 'end'=>'HEE');
+	    $originalExceptions[16] = array('start'=>'HAA', 'end'=>'FEE');
+	    $originalExceptions[17] = array('start'=>'HAA', 'end'=>'REE');
 
+		$createAttributes = TitleDataFileCreateAttributes::makeN($numLines, $fileName, $originalExceptions);
+		$retCreate = TitleUtilities::createTitleDataFile($createAttributes);
+		if ($retCreate == FALSE)
+		{
+			// failure in test.
+			// @todo
+		}
 
+		// $sizeLinesx5 = count($numLines);
+
+		$handle = fopen($fileName, 'r');
+
+		if ($handle == FALSE)
+		{
+			throw new Exception('Unable to fopen:'.$fileName);
+		}
+		$linesRead = 0;
+		$currentLine = fgets($handle);
+		while ($currentLine != FALSE)
+		{
+			$linePieces = explode("\t", $currentLine);
+			$objTD = new TitleData();
+			$objTD->getPieces($currentLine, $linesRead);
+			$objTDC->add($objTD);
+			$currentLine = fgets($handle);
+		}
+		$objTDC->sort();
+		$sorted = $objTDC->getSorted();
+		$this->assertTrue($sorted);
+		$linked = $objTDC->link();
+
+		$this->assertTrue($linked);
+
+		$tdcCollection = $objTDC->getTdc();
+
+		$nextCt = count($tdcCollection[14]->next);
+		echo '...nextCt='.$nextCt."\n";
+		echo '...14th..pieceFirst..='.$tdcCollection[14]->pieceFirst."\n";
+		if ($tdcCollection[14]->pieceFirst == 'CAA')
+		{
+			echo '... doing the assert with 4 and nextCt'."\n";
+			$this->assertEquals(4, $nextCt);
+		}
+		fclose($handle);
+		echo 'testLinkx20autogenerate-end'."\n";
+
+	}
 }
 ?>

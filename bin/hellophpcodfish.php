@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 	echo 'hellophpcodfish:start'."\n";
 	require 'vendor/autoload.php';
