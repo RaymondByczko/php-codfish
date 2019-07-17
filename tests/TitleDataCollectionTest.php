@@ -312,6 +312,42 @@ class TitleDataCollectionTest extends TestCase
 		}
 	}
 	
+	/**
+	  * A test with only 20 lines, generated automatically.
+	  * This is the first of the auto generated file tests.
+	  *
+	  * @todo finish this.
+	  */
+	public function testLinkx20autogenerate()
+	{
+		$objTDC = new TitleDataCollection();
+
+		$numLines = 20;
+		$fileName = 'test-linkx-20-auto-generate.tsv';
+		/* @todo determine if fileName exists */
+	    $originalExceptions = array();
+	    $originalExceptions[4] = array('start'=>'CA', 'end'=>'HA');
+	    $originalExceptions[6] = array('start'=>'HA', 'end'=>'FI');
+	    $originalExceptions[8] = array('start'=>'FI', 'end'=>'GYMM');
+	  
+        $originalExceptions[15] = array('start'=>'HA', 'end'=>'HE');
+	    $originalExceptions[16] = array('start'=>'HA', 'end'=>'FE');
+	    $originalExceptions[17] = array('start'=>'HA', 'end'=>'RE');
+
+		$createAttributes = TitleDataFileCreateAttributes::makeN($numLines, $fileName, $originalExceptions);
+		$objTDC = TitleUtilities::createTitleDataFile($createAttributes);
+
+		$sizeLinesx5 = count($this->linesx5);
+
+		for ($i=0; $i < $sizeLinesx5; $i++)
+		{
+			$objTD = new TitleData();
+			$aLine = $this->linesx5[$i];
+			$objTD->getPieces($aLine, $i);
+			$objTDC->add($objTD);
+		}
+
+
 
 }
 ?>

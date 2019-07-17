@@ -180,6 +180,46 @@ class TitleDataFileCreateAttributes
 	}
 
 	/**
+	  * numLines = 20
+	  * fileName = test20.tsv
+	  * originalExceptions = array();
+	  *	originalExceptions[6] = array('start'=>'CATT', 'end'=>'HATT');
+	  *	originalExceptions[8] = array('start'=>'HATT', 'end'=>'FITT');
+	  *	originalExceptions[10] = array('start'=>'FITT', 'end'=>'GYMM');
+	  *
+      *	originalExceptions[20] = array('start'=>'HATT', 'end'=>'HEAD');
+	  *	originalExceptions[21] = array('start'=>'HATT', 'end'=>'FELL');
+	  *	originalExceptions[22] = array('start'=>'HATT', 'end'=>'REDD');
+	  */
+	static public function makeN($numLines, $fileName, $originalExceptions)
+	{
+		$newObject = new TitleDataFileCreateAttributes();
+
+		$newObject->numLines = $numLines;
+		$newObject->fileName = $fileName;
+		$newObject->mode = 'w+';
+
+		$newObject->titleTconstPrefix = 'tt';
+		$newObject->titleType = 'short';
+		$newObject->titlePrimaryTitleStart = 'A';
+		$newObject->titlePrimaryTitleEnd = 'E';
+		$newObject->titleOriginalTitleStart = 'A';
+		$newObject->titleOriginalTitleEnd = 'E';
+		$newObject->titleAdult = 0;
+		$newObject->titleStartYear = 2019;
+		$newObject->titleEndYear = 2019;
+		$newObject->titleRunTimeMinutes = 60;
+		$newObject->titleGenres = 'Documentary';
+
+		$newObject->originalExceptions = $originalExceptions;
+		
+		return $newObject;
+
+
+	}
+
+
+	/**
 	  * Creates a file with orderly data, that in general, is not 'linkable'. The
 	  * end value of each 'title' will not match the start value of any other 'title'.
 	  * Thus most of the data is 'bulk filler' which helps test the algorith under
