@@ -30,7 +30,8 @@ class TitleUtilities
 
 	public static function createTitleDataFile(TitleDataFileCreateAttributes $createAttributes)
 	{
-		$createAttributes->create();
+		$retCreate = $createAttributes->create();
+		return $retCreate;
 	}
 }
 ?>
