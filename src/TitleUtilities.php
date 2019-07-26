@@ -4,6 +4,7 @@
   * @location php-codfish/src/
   * @author Raymond Byczko
   * @history 2019-07-09;RByczko;Added createTitleDataFile.
+  * @history 2019-07-24;RByczko;Added deepCopy.
   */
 
 namespace RaymondByczko\PhpCodfish;
@@ -32,6 +33,18 @@ class TitleUtilities
 	{
 		$retCreate = $createAttributes->create();
 		return $retCreate;
+	}
+
+
+	/**
+	  * This deepCopy was obtained from the following website.
+	  * https://abiusx.com/a-rigorous-study-of-deep-copy-in-php/
+	  * Albiet with limitation, it seems to work.  It was tried
+	  * in misc/arrayobjectcopy02.php .
+	  */
+	public static function deepCopy(&$variable)
+	{
+		return unserialize(serialize($variable));
 	}
 }
 ?>

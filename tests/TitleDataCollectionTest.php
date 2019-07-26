@@ -57,6 +57,19 @@ class TitleDataCollectionTest extends TestCase
 		'Envy',
 		'Fish'
 	);
+
+	protected $linesx7 = array(
+		't01	short	A of Z	A of Z	0	1994	\N	1	Documentary',
+		't02	short	Z in N	Z in N	0	1892	\N	5	Animation',
+		't03	short	Q of M	Q of M	0	1892	\N	4	Animation',
+		't04	short	E of X	E of X	0	1992	\N	\N	Animation',
+		't05	short	B of F	B of F	0	1993	\N	1	Comedy',
+		't06	short	P of V	P of V	0	1994	\N	1	Short',
+		't07	short	D of A	D of A	0	1994	\N	1	Sport',
+		't08	short	C of W	C of W	0	1994	\N	1	Documentary'
+	);
+
+
 	
 
 	public function testSorted()
@@ -542,6 +555,44 @@ class TitleDataCollectionTest extends TestCase
 
 	}
 
-	// new-end
+	public function testIntersect()
+	{
+		echo 'testIntersect-start'."\n";
+		$objTDC1 = new TitleDataCollection();
+
+		$sizeLinesx7 = count($this->linesx7);
+
+		for ($i=0; $i < $sizeLinesx7; $i++)
+		{
+			$objTD = new TitleData();
+			$aLine = $this->linesx7[$i];
+			$objTD->getPieces($aLine, $i);
+			$objTDC1->add($objTD);
+		}
+
+		// tdc1 is a reference to the internal array of objTDC1.
+		$tdc1 = $objTDC1->getTdc();
+
+		$tdc1Clone = clone $tdc1;
+		$tdc1DeepCopy = TestUtilities::deepCopy($tdc1Clone);
+
+		$objTDC2 = new TitleDataCollection();
+		$tdc2 = $objTDC2->getTdc();
+		// Now tdc2 is just an alias for the tdc in our second collection.
+		// And adjust it as follows.
+		$tdc2 = $tdc1DeepCopy;
+
+
+		$objTDCIntersect = TitleDataCollection::intersect($objTDC1, $objTDC2);
+
+		echo 'testIntersect-end'."\n";
+	}
+
+	public function testCloneUsage()
+	{
+	}
+
+
+
 }
 ?>

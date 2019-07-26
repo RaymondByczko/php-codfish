@@ -17,6 +17,7 @@ class TitleDataCollection
 {
 	private $tdc;
 	private $tdcSorted;
+	private $typeSort;
 
 	public function __construct()
 	{
@@ -38,6 +39,7 @@ class TitleDataCollection
 	{
 		$this->tdc[] = $newTitleData;
 		$this->tdcSorted = FALSE;
+		$this->typeSort = NULL;
 	}
 
 	public function sort()
@@ -45,11 +47,38 @@ class TitleDataCollection
 		usort($this->tdc, array("RaymondByczko\PhpCodfish\TitleData", "compareFirst"));
 		// uasort($lCollectionTitleData, array("RaymondByczko\PhpCodfish\TitleData", "compareLast"));
 		$this->tdcSorted = TRUE;
+		$this->typeSort = 'compareFirst';
 	}
+
+	public function sortFirst()
+	{
+		usort($this->tdc, array("RaymondByczko\PhpCodfish\TitleData", "compareFirst"));
+		$this->tdcSorted = TRUE;
+		$this->typeSort = 'compareFirst';
+	}
+
+	public function sortLast()
+	{
+		usort($this->tdc, array("RaymondByczko\PhpCodfish\TitleData", "compareLast"));
+		$this->tdcSorted = TRUE;
+		$this->typeSort = 'compareLast';
+	}
+
+	static public function intersect(TitleDataCollection $a, TitleDataCollection $b)
+	{
+
+		$valueCompare = array("RaymondByczko\PhpCodfish\TitleData", "compareLastFirst");
+		$keyCompare = function($x, $y) { return TRUE; };
+		// $theIntersection = array_uintersect_uassoc($a, $b, array("RaymondByczko\PhpCodfish\TitleData", "compareLastFirst"));
+		$theIntersection = array_uintersect_uassoc($a, $b, $valueCompare, $keyCompare);
+		return $theIntersection;
+	}
+
+
 
 	public function link()
 	{
-		if ($this->tdcSorted)
+		if (($this->tdcSorted) && ($this->typeSorted == 'compareFirst'))
 		{
 			$firstIndex = -1; // @todo - this should be a null or not valid value.
 			foreach ($this->tdc as $key=>$objTitleData)
@@ -79,6 +108,11 @@ class TitleDataCollection
 				}
 			}
 			return TRUE;
+		}
+
+		if (($this->tdcSorted) && ($this->typeSorted == 'compareLast'))
+		{
+			// @todo
 		}
 		return FALSE;
 	

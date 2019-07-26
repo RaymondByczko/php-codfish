@@ -5,6 +5,7 @@
   * @author Raymond Byczko
   * @history 2019-07-04;RByczko;Added assignment to $line_num in
   * method getPieces.
+  * @history 2019-07-23;RByczko;Added compareLastFirst.
   */
 namespace RaymondByczko\PhpCodfish;
 
@@ -68,6 +69,23 @@ class TitleData
 			return 0;
 		}
 		return ($a->pieceLast < $b->pieceLast)?-1:1;
+	}
+
+	/**
+	  * This is used to compare two arrays, one is sorted on the last value, and
+	  * the second is sorted on the first value.
+	  *
+	  *	This method is chiefly intended for: array_uintersect_uassoc
+	  * An intersection of two arrays would be found using this compare method.
+	  */
+	public static function compareLastFirst(TitleData $a, TitleData $b)
+	{
+		if ($a->pieceLast == $b->pieceFirst)
+		{
+			return 0;
+		}
+		return ($a->pieceLast < $b->pieceFirst)?-1:1;
+
 	}
 
 }
