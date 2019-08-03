@@ -1,11 +1,5 @@
 {
 	"name":"raymond-byczko/php-codfish",
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/RaymondByczko/php-codfish-website"
-		}
-	],
 	"require": {
 	},
 	"autoload": {
