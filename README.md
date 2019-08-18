@@ -1,5 +1,5 @@
 # php-codfish
-##Purpose##
+## Purpose
 This repository supports a library for handling large datasets.
 It is an experimental library, just exploring different ways
 of dealing with this problem.
@@ -7,7 +7,7 @@ of dealing with this problem.
 Of primary consideration was to explore PHP references in a manner
 to produce 'linked lists', which are more common in c/c++.
 
-##Inspiration##
+## Inspiration
 The inspiration for this is a programming problem I encountered
 for an interview.  It is known as the 'longest film' title problem.
 
@@ -20,12 +20,12 @@ is to produce the largest concatenation of a number of movie titles
 to find which is the largest that can be produced.  Trivial initial
 and ending words are discarded when forming the longest title.
 
-##Why Codfish##
+## Why Codfish
 I enjoy catching and eat Codfish.  In prior centuries, the sheer
 multitude of this fish in the north Atlantic, made me think of
 large datasets.
 
-##Status##
+## Status
 This code is in draft format but its coming along.  As it continues
 I will attempt to keep this updated, and try to present candid
 opinion of its status.  Since its represented on github and packagist,
