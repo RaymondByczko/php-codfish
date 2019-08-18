@@ -25,6 +25,35 @@ I enjoy catching and eat Codfish.  In prior centuries, the sheer
 multitude of this fish in the north Atlantic, made me think of
 large datasets.
 
+## The Approach
+
+The approach of this library is to assume the given dataset is
+not sufficiently 'narrow' to be useful for development.  Basically,
+someone said, 'use this test data', or 'use this as your data', but
+what was given was very large.  Further, the data was given,
+but the expected outcome was not.
+
+From a development standpoint, this is not the best.  Its useful
+to have a number of well defined datasets, with their expected
+outcome, upon being fed to a certain algorithm.
+
+If one wants to get the input/output relationship right for a very
+large dataset, it is important to get it right for the smaller
+datasets.
+
+### Start Small
+
+I think it better to start off with
+something smaller.  Lets say 10 records or 20.  However, beyond
+that, it is useful to be able to automate the generation of this
+test data.
+
+### Automated Test Cases
+
+php-codfish is attempting to support, from the beginning, automated
+test data, with prescribed attributes, that would be easy to use
+when applied to a large dataset algorithm.
+
 ## Status
 This code is in draft format but its coming along.  As it continues
 I will attempt to keep this updated, and try to present candid
